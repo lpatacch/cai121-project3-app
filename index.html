@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project 3 App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- You don't need to change this file. Change features.js instead. -->
+<main class="wrap">
+  <p class="eyebrow">CAI121 · Project 3</p>
+  <h1 id="title">Project 3 App</h1>
+  <p class="lead" id="purpose"></p>
+
+  <p class="banner test" id="testBanner" hidden><strong>Test mode.</strong> Your features are hidden. Every answer shows its confidence and the time it took. Turn this off in features.js (<code>testMode: false</code>) for the finished app.</p>
+  <p class="banner bad" id="setupError" role="alert" hidden></p>
+
+  <div class="stage">
+    <canvas id="view" width="640" height="480" role="img" aria-label="Camera or photo view"></canvas>
+    <div class="status" id="status">Loading model…</div>
+  </div>
+
+  <div class="controls">
+    <button id="camBtn" type="button" disabled>Start camera</button>
+    <label class="filebtn disabled" id="photoLabel">Test a saved photo<input id="photo" type="file" accept="image/*" disabled></label>
+  </div>
+  <p class="banner bad" id="camErr" role="alert" hidden></p>
+
+  <section class="card answer" aria-labelledby="answerHead">
+    <h2 id="answerHead" class="sr-only">Answer</h2>
+    <p class="big" id="answer" aria-live="polite">Start the camera or test a saved photo.</p>
+    <p class="sub" id="answerSub"></p>
+    <p class="msg" id="message" aria-live="polite" hidden></p>
+  </section>
+
+  <p class="banner alert" id="alertBox" role="alert" hidden></p>
+  <p class="banner guide" id="guideBox" aria-live="polite" hidden></p>
+
+  <!-- Test mode details -->
+  <section class="card" id="testPanel" hidden aria-labelledby="testHead">
+    <h2 id="testHead">Test results</h2>
+    <p class="note" id="photoName"></p>
+    <table class="results" id="testTable"><thead id="testThead"></thead><tbody id="testRows"></tbody></table>
+    <div class="stats">
+      <div class="stat"><b id="sMs">–</b><span>ms this answer</span></div>
+      <div class="stat"><b id="sAvg">–</b><span>ms average</span></div>
+      <div class="stat"><b id="sLoad">–</b><span>s to load model</span></div>
+    </div>
+    <p class="note" id="modelInfo"></p>
+  </section>
+
+  <!-- Features (shown only when turned on and test mode is off) -->
+  <section class="card" id="bestPanel" hidden aria-labelledby="bestHead">
+    <h2 id="bestHead">Best photo so far</h2>
+    <img id="bestImg" alt="The best photo so far">
+    <p class="sub" id="bestText"></p>
+    <div class="controls"><button id="bestSave" type="button" class="secondary">Save photo</button><button id="bestReset" type="button" class="secondary">Start over</button></div>
+  </section>
+
+  <section class="card" id="historyPanel" hidden aria-labelledby="historyHead">
+    <h2 id="historyHead">Recent answers</h2>
+    <ol class="list" id="historyList"></ol>
+  </section>
+
+  <section class="card" id="countPanel" hidden aria-labelledby="countHead">
+    <h2 id="countHead">Count</h2>
+    <p class="sub" id="countNow">In view now: nothing</p>
+    <div class="controls"><button id="tallyAdd" type="button">Add to tally</button><button id="tallyReset" type="button" class="secondary">Reset tally</button></div>
+    <table class="results"><thead><tr><th scope="col">Class</th><th scope="col">Tally</th></tr></thead><tbody id="tallyRows"></tbody></table>
+    <h3>Log</h3>
+    <ol class="list" id="tallyLog"></ol>
+  </section>
+
+  <section class="card" id="summaryPanel" hidden aria-labelledby="summaryHead">
+    <h2 id="summaryHead">Summary since you opened the app</h2>
+    <table class="results"><thead><tr><th scope="col">Class</th><th scope="col">Most at once</th><th scope="col">Answers with it</th></tr></thead><tbody id="summaryRows"></tbody></table>
+    <p class="note" id="summaryNote"></p>
+    <div class="controls"><button id="summaryReset" type="button" class="secondary">Start over</button></div>
+  </section>
+
+  <section class="card" id="myPanel" hidden aria-labelledby="myHead">
+    <h2 id="myHead">My feature</h2>
+    <p class="msg" id="myMessage" aria-live="polite" hidden></p>
+    <ol class="list" id="myLog"></ol>
+    <p class="banner bad" id="myError" hidden></p>
+  </section>
+
+  <p class="note">Nothing is uploaded: every photo and camera frame stays on this device. The model runs inside this web page.</p>
+</main>
+
+<script src="ort/ort.wasm.min.js"></script>
+<script src="features.js"></script>
+<script src="my-feature.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
