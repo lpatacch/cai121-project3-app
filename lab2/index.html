@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab 2: Edge AI on Your Phone</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .seg button[aria-pressed="false"] { background: transparent; color: var(--accent); }
+  .row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
+  .row label { font-weight: 700; color: var(--ink); }
+  .row output { font: 700 18px var(--mono); color: var(--ink); min-width: 4ch; text-align: right; }
+  input[type=range] { width: 100%; accent-color: var(--accent); min-height: 32px; }
+  .net { font-weight: 700; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">CAI121 · Week 12 · Lab 2</p>
+  <h1>Edge AI on Your Phone</h1>
+  <p class="lead">The everyday-objects model (1,000 classes), running inside this web page. Nothing is uploaded: every photo stays on this device.</p>
+  <p class="banner bad" id="err" role="alert" hidden></p>
+
+  <section class="card" aria-labelledby="vHead">
+    <h2 id="vHead">Model version</h2>
+    <div class="seg" role="group" aria-label="Model version">
+      <button type="button" id="vFull" aria-pressed="true">Full (32-bit)</button>
+      <button type="button" id="vSmall" aria-pressed="false">Compressed (8-bit)</button>
+    </div>
+    <p class="sub" id="modelInfo" aria-live="polite">Loading the full model…</p>
+    <p class="sub">Internet: <span class="net" id="net">checking…</span></p>
+  </section>
+
+  <div class="stage">
+    <canvas id="view" width="640" height="480" role="img" aria-label="Camera or photo view"></canvas>
+    <div class="status" id="status">Loading…</div>
+  </div>
+
+  <div class="controls">
+    <button id="camBtn" type="button" disabled>Start camera</button>
+    <label class="filebtn disabled" id="photoLabel">Test a saved photo<input id="photo" type="file" accept="image/*" disabled></label>
+  </div>
+  <p class="banner bad" id="camErr" role="alert" hidden></p>
+
+  <section class="card answer" aria-labelledby="aHead">
+    <h2 id="aHead" class="sr-only">Answer</h2>
+    <p class="big" id="answer" aria-live="polite">Start the camera or test a saved photo.</p>
+    <p class="sub" id="answerSub"></p>
+  </section>
+
+  <section class="card" aria-labelledby="nsHead">
+    <h2 id="nsHead">"Not sure" level</h2>
+    <div class="row">
+      <label for="ns">Not sure below</label>
+      <input id="ns" type="range" min="0" max="90" step="10" value="0">
+      <output id="nsOut" for="ns">0%</output>
+    </div>
+    <p class="note">If the top confidence is lower than this, the app says "Not sure."</p>
+  </section>
+
+  <section class="card" aria-labelledby="tHead">
+    <h2 id="tHead">Numbers for Lab 2</h2>
+    <table class="results"><thead><tr><th scope="col">Rank</th><th scope="col">Class</th><th scope="col">Confidence</th></tr></thead><tbody id="top3"></tbody></table>
+    <div class="stats">
+      <div class="stat"><b id="sFirst">–</b><span>ms first answer</span></div>
+      <div class="stat"><b id="sMs">–</b><span>ms this answer</span></div>
+      <div class="stat"><b id="sAvg">–</b><span>ms average</span></div>
+    </div>
+    <p class="note">The average leaves out the first answer (the warm-up). It restarts when you switch versions.</p>
+  </section>
+
+  <p class="note">Model: MobileNetV2 trained on ImageNet (ONNX Model Zoo). The compressed version stores each weight with 8 bits instead of 32.</p>
+</main>
+
+<script src="../ort/ort.wasm.min.js"></script>
+<script src="lab2.js"></script>
+</body>
+</html>
